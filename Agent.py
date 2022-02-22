@@ -18,79 +18,14 @@ class Agent:
         self.dictionary = Dictionary(dict='common')
         self.game_count = 0
         self.game_win = 0
-        self.step_total = 0
         self.win_stats = []
         self.new_game()
-
 
     def new_game(self):
         self.game = Wordle(dict='common')
         self.state = self.game.stage
-        self.step_count = 0
         self.found_letters = set()
         self.used_letters = set()
-
-    def map_index_to_char(self, index: int)-> str:
-        mapper = {
-            0: 'a',
-            1: 'b',
-            2: 'c',
-            3: 'd',
-            4: 'e',
-            5: 'f',
-            6: 'g',
-            7: 'h',
-            8: 'i',
-            9: 'j',
-            10: 'k',
-            11: 'l',
-            12: 'm',
-            13: 'n',
-            14: 'o',
-            15: 'p',
-            16: 'q',
-            17: 'r',
-            18: 's',
-            19: 't',
-            20: 'u',
-            21: 'v',
-            22: 'w',
-            23: 'x',
-            24: 'y',
-            25: 'z'
-        }
-        return mapper.get(index, '')
-
-    def map_char_to_index(self, char: str)-> int:
-        mapper = {
-            'a': 0,
-            'b': 1,
-            'c': 2,
-            'd': 3,
-            'e': 4,
-            'f': 5,
-            'g': 6,
-            'h': 7,
-            'i': 8,
-            'j': 9,
-            'k': 10,
-            'l': 11,
-            'm': 12,
-            'n': 13,
-            'o': 14,
-            'p': 15,
-            'q': 16,
-            'r': 17,
-            's': 18,
-            't': 19,
-            'u': 20,
-            'v': 21,
-            'w': 22,
-            'x': 23,
-            'y': 24,
-            'z': 25
-        }
-        return mapper.get(char, '')
 
     def guess_word_on_policy(self)-> str|None:
         # get possible words list
@@ -118,9 +53,6 @@ class Agent:
         return guess_word
 
     def step(self):
-        self.step_count += 1
-        self.step_total += 1
-
         guess_word = self.guess_word_on_policy()
         if not guess_word:
             return True, "Lose"
@@ -183,6 +115,6 @@ class Agent:
             self.win_stats.append(self.game_win/self.game_count)
 
             if (self.game_count % print_freq) == 0:
-                print("Game over: {} | total attempts: {}, total guess {}".format(result, self.game.attempt, self.step_count))
+                print("Game over: {} | total attempts: {}".format(result, self.game.attempt))
                 print("Total game: {} | Total win: {} ({}%)".format(self.game_count, self.game_win, 100*self.game_win/self.game_count))
                 print("-------------------------------------------------------------")
