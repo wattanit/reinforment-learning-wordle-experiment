@@ -2,8 +2,8 @@ from Dictionary import *
 import random
 
 class Wordle:
-    def __init__(self, dict="common"):
-        self.dict = Dictionary('extended')
+    def __init__(self, dict="extended"):
+        self.dict = Dictionary(dict)
         self.answer = self.dict.get_random_words()
         self.attempt = 0
         self.stage = "_____"
